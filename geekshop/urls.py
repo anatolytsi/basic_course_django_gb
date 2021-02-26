@@ -20,7 +20,7 @@ from mainapp.views import index, products
 
 # USER: connect the pages here, I guess
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', index, name='index'),  # Our web page is accessible via the main address and thus index fcn is called
-    path('products/', products, name='products'),  # Our web page is accessible via /products
+    path("admin/", admin.site.urls),
+    path("", index, name="index"),  # Our web page is accessible via the main address and thus index fcn is called
+    path("products/", products, name="products"),  # Our web page is accessible via /products
 ]
