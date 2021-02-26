@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import json
+from mainapp.models import  Product, ProductCategory
 
 # Create your views here.
 # USER: functions = views = controllers
@@ -25,14 +26,9 @@ def products(request):
     :return: render with request and template for web page specified
     """
     context = {
-        "title": "GeekShop - Каталог"
+        "title": "GeekShop - Каталог",
+        "products": Product.objects.all(),
+        "categories": ProductCategory.objects.all()
     }
-
-    # Get JSON array
-    with open("mainapp/fixtures/products.json", encoding="utf-8") as json_file:
-        data = json.load(json_file)
-
-    # Add products to context
-    context.update({"products": data})
 
     return render(request, "mainapp/products.html", context)
