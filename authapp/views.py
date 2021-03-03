@@ -20,7 +20,11 @@ def login(request):
             print(form.errors)
     else:
         form = UserLoginForm()
-    context = {"form": form}
+    context = {
+        "title": "GeekShop - Авторизация",
+        "header": "Авторизация",
+        "form": form
+    }
     return render(request, "authapp/login.html", context)
 
 
@@ -34,7 +38,11 @@ def register(request):
             print(form.errors)
     else:
         form = UserRegisterForm()
-    context = {"form": form}
+    context = {
+        "title": "GeekShop - Регистрация",
+        "header": "Создать аккаунт",
+        "form": form
+    }
     return render(request, "authapp/register.html", context)
 
 
