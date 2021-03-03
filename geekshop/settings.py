@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'mainapp',  # USER: Include your apps here
+    'authapp',
 ]
 # USER: Connection between client and backend, i.e. middleware. Here we connect the pre-made middleware
 MIDDLEWARE = [
@@ -128,3 +129,5 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+AUTH_USER_MODEL = "authapp.User"
