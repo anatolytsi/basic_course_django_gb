@@ -23,7 +23,6 @@ def login(request):
         form = UserLoginForm()
     context = {
         "title": "GeekShop - Авторизация",
-        "header": "Авторизация",
         "form": form
     }
     return render(request, "authapp/login.html", context)
@@ -42,7 +41,6 @@ def register(request):
         form = UserRegisterForm()
     context = {
         "title": "GeekShop - Регистрация",
-        "header": "Создать аккаунт",
         "form": form
     }
     return render(request, "authapp/register.html", context)
@@ -55,7 +53,7 @@ def logout(request):
 
 def profile(request):
     if request.method == "POST":
-        form = UserProfileForm(data=request.POST, instance=request.user)
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse("auth:profile"))
@@ -65,7 +63,6 @@ def profile(request):
         form = UserProfileForm(instance=request.user)
     context = {
         "title": "GeekShop - Профиль",
-        "header": "Создать аккаунт",
         "form": form,
         "baskets": Basket.objects.all(),
     }
