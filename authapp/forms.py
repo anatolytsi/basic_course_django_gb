@@ -44,4 +44,4 @@ class UserProfileForm(UserChangeForm):
         self.fields["email"].widget.attrs["readonly"] = True
         for field_name, field in self.fields.items():
             field.widget.attrs["class"] = "form-control py-4"
-        self.fields["avatar"].widget.attrs["class"] = "form-control py-4 custom-file-input"
+        self.fields["avatar"].widget.attrs["class"] = "custom-file-input"
