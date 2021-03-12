@@ -27,6 +27,7 @@ urlpatterns = [
     path("", index, name="index"),  # Our web page is accessible via the main address and thus index fcn is called
     path("products/", include("mainapp.urls", namespace="products")),  # Our web page is accessible via /products
     path("auth/", include("authapp.urls", namespace="auth")),
+    path("baskets/", include("basketapp.urls", namespace="baskets")),
 ]
 
 if settings.DEBUG:

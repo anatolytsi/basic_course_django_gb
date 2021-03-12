@@ -3,7 +3,8 @@ from django.contrib import auth
 from django.urls import reverse
 from django.contrib import messages
 
-from authapp.forms import UserLoginForm, UserRegisterForm
+from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from basketapp.models import Basket
 
 
 def login(request):
@@ -22,7 +23,6 @@ def login(request):
         form = UserLoginForm()
     context = {
         "title": "GeekShop - Авторизация",
-        "header": "Авторизация",
         "form": form
     }
     return render(request, "authapp/login.html", context)
@@ -33,6 +33,7 @@ def register(request):
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Вы успешно зарегистрировались!")
             return HttpResponseRedirect(reverse("auth:login"))
         else:
             print(form.errors)
@@ -40,7 +41,6 @@ def register(request):
         form = UserRegisterForm()
     context = {
         "title": "GeekShop - Регистрация",
-        "header": "Создать аккаунт",
         "form": form
     }
     return render(request, "authapp/register.html", context)
@@ -49,3 +49,22 @@ def register(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse("index"))
+
+
+def profile(request):
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Данные успешно сохраненны!")
+            return HttpResponseRedirect(reverse("auth:profile"))
+        else:
+            print(form.errors)
+    else:
+        form = UserProfileForm(instance=request.user)
+    context = {
+        "title": "GeekShop - Профиль",
+        "form": form,
+        "baskets": Basket.objects.filter(user=request.user),
+    }
+    return render(request, "authapp/profile.html", context)

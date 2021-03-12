@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'mainapp',  # USER: Include your apps here
     'authapp',
+    'basketapp',
 ]
 # USER: Connection between client and backend, i.e. middleware. Here we connect the pre-made middleware
 MIDDLEWARE = [
