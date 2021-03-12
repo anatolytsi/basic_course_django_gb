@@ -53,7 +53,7 @@ def logout(request):
 
 def profile(request):
     if request.method == "POST":
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, "Данные успешно сохраненны!")
