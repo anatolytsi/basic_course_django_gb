@@ -18,14 +18,8 @@ class Basket(models.Model):
 
     def total_sum(self):
         baskets = Basket.objects.filter(user=self.user)
-        total = 0
-        for basket in baskets:
-            total += basket.sum()
-        return total
+        return sum(basket.sum() for basket in baskets)
 
     def total_quantity(self):
         baskets = Basket.objects.filter(user=self.user)
-        total = 0
-        for basket in baskets:
-            total += basket.quantity
-        return total
+        return sum(basket.quantity for basket in baskets)
