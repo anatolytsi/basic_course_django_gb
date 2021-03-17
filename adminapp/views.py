@@ -1,8 +1,8 @@
-from django.shortcuts import render, HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
-from django.contrib import messages
+from django.shortcuts import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
+from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -11,9 +11,12 @@ from mainapp.models import Product, ProductCategory
 from adminapp.forms import UserAdminRegisterForm, UserAdminProfileForm, ProductAdminForm, ProductCategoryAdminForm
 
 
-@user_passes_test(lambda u: u.is_superuser, login_url="/")
-def index(request):
-    return render(request, "adminapp/index.html")
+class AdminIndexView(TemplateView):
+    template_name = "adminapp/index.html"
+
+    @method_decorator(user_passes_test(lambda u: u.is_superuser, login_url="/"))
+    def dispatch(self, request, *args, **kwargs):
+        return super(AdminIndexView, self).dispatch(request, *args, **kwargs)
 
 
 # READ

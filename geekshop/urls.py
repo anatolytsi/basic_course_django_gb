@@ -19,12 +19,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import include
 
-from mainapp.views import index
+from mainapp.views import ProductsIndexView
 
 # USER: connect the pages here, I guess
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", index, name="index"),  # Our web page is accessible via the main address and thus index fcn is called
+    path("", ProductsIndexView.as_view(), name="index"),  # Our web page is accessible via the main address and thus index fcn is called
     path("products/", include("mainapp.urls", namespace="products")),  # Our web page is accessible via /products
     path("auth/", include("authapp.urls", namespace="auth")),
     path("baskets/", include("basketapp.urls", namespace="baskets")),
