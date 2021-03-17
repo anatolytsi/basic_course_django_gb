@@ -68,7 +68,10 @@
             <div class="row">
                 <div class="col-lg-12" style="margin-top: 33px;">
                     <a href="{% url "admin_staff:admin_products_delete" product.id %}" style="text-decoration: none">
-                        <button class="btn btn-danger btn-block">Удалить</button>
+                        <form action="{% url "admin_staff:admin_products_delete" product.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-block">
+                        </form>
                     </a>
                 </div>
             </div>
