@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from authapp.models import User
 from mainapp.models import Product, ProductCategory
-from adminapp.forms import UserAdminRegisterForm, UserAdminProfileForm, ProductAdminForm
+from adminapp.forms import UserAdminRegisterForm, UserAdminProfileForm, ProductAdminForm, ProductCategoryAdminForm
 
 
 @user_passes_test(lambda u: u.is_superuser, login_url="/")
@@ -113,3 +113,52 @@ def admin_products_delete(request, product_id):
     product = Product.objects.get(id=product_id)
     product.delete()
     return HttpResponseRedirect(reverse("admin_staff:admin_products"))
+
+
+# READ
+@user_passes_test(lambda u: u.is_superuser, login_url="/")
+def admin_categories(request):
+    context = {"categories": ProductCategory.objects.all()}
+    return render(request, "adminapp/admin-categories-read.html", context)
+
+
+# CREATE
+@user_passes_test(lambda u: u.is_superuser, login_url="/")
+def admin_categories_create(request):
+    if request.method == "POST":
+        form = ProductCategoryAdminForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("admin_staff:admin_categories"))
+        else:
+            print(form.errors)
+    else:
+        form = ProductCategoryAdminForm()
+    context = {"form": form}
+    return render(request, "adminapp/admin-categories-create.html", context)
+
+
+# UPDATE
+@user_passes_test(lambda u: u.is_superuser, login_url="/")
+def admin_categories_update(request, category_id):
+    category = ProductCategory.objects.get(id=category_id)
+    if request.method == "POST":
+        form = ProductCategoryAdminForm(data=request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Данные успешно сохраненны!")
+            return HttpResponseRedirect(reverse("admin_staff:admin_categories"))
+        else:
+            print(form.errors)
+    else:
+        form = ProductCategoryAdminForm(instance=category)
+    context = {"form": form, "category": category}
+    return render(request, "adminapp/admin-categories-update-delete.html", context)
+
+
+# DELETE
+@user_passes_test(lambda u: u.is_superuser, login_url="/")
+def admin_categories_delete(request, category_id):
+    category = ProductCategory.objects.get(id=category_id)
+    category.delete()
+    return HttpResponseRedirect(reverse("admin_staff:admin_categories"))
