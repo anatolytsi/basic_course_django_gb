@@ -2,9 +2,9 @@
 
 {% block content %}
     <div class="container-fluid">
-        <h1 class="mt-4">Редактирование категории | {{ category.name }}</h1>
+        <h1 class="mt-4">Редактирование категории | {{ productcategory.name }}</h1>
         <div class="card-body">
-            <form action="{% url "admin_staff:admin_categories_update" category.id %}" method="post">
+            <form action="{% url "admin_staff:admin_categories_update" productcategory.id %}" method="post">
                 {% csrf_token %}
                 <div class="form-row mb-2">
                     <div class="col-md-6">
@@ -30,9 +30,11 @@
             </form>
             <div class="row">
                 <div class="col-lg-12" style="margin-top: 33px;">
-                    <a href="{% url "admin_staff:admin_categories_delete" category.id %}"
-                       style="text-decoration: none">
-                        <button class="btn btn-danger btn-block">Удалить</button>
+                    <a href="{% url "admin_staff:admin_categories_delete" productcategory.id %}" style="text-decoration: none">
+                        <form action="{% url "admin_staff:admin_categories_delete" productcategory.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-block">
+                        </form>
                     </a>
                 </div>
             </div>

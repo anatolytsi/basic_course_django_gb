@@ -15,7 +15,8 @@
                 <h1 class="my-4">GeekShop</h1>
                 <div class="list-group">
                     {% for category in categories %}
-                        <a href="#" class="list-group-item">{{ category.name }}</a>
+                        <a href="{% url "products:product" category.id %}"
+                           class="list-group-item">{{ category.name }}</a>
                     {% endfor %}
                 </div>
 
@@ -76,14 +77,6 @@
                                         <button type="button" class="btn btn-outline-success">Отправить в корзину
                                         </button>
                                     </a>
-
-
-                                    {#                                    Basket is not yet implemented #}
-                                    {#                                    {% if product.isAdded %}#}
-                                    {#                                        <button type="button" class="btn btn-outline-danger">Удалить из корзины</button>#}
-                                    {#                                    {% else %}#}
-                                    {#                                        <button type="button" class="btn btn-outline-success">Отправить в корзину</button>#}
-                                    {#                                    {% endif %}#}
                                 </div>
                             </div>
                         </div>
@@ -93,14 +86,26 @@
 
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        <li class="page-item {% if not products.has_previous %} disabled {% endif %}">
+                            <a class="page-link"
+                               href="{% if products.has_previous %}{% url "products:page" products.previous_page_number %}{% else %}#{% endif %}"
+                               tabindex="-1" aria-disabled="true">
+                                Previous
+                            </a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
+                        {% for page in products.paginator.page_range %}
+                            <li class="page-item">
+                                <a class="page-link" {% ifequal page products.number %} href="#" style="background-color: #e9ecef; color: #0056b3" {% else %} href="{% url "products:page" page %}" {% endifequal %}>
+                                    {{ page }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        <li class="page-item {% if not products.has_next %} disabled {% endif %}">
+                            <a class="page-link"
+                               href="{% if products.has_next %}{% url "products:page" products.next_page_number %}{% else %}#{% endif %}"
+                               tabindex="-1" aria-disabled="true">
+                                Next
+                            </a>
                         </li>
                     </ul>
                 </nav>
